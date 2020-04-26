@@ -16,7 +16,7 @@
 
 * Geometry objects (those returned from the 'SHAPE@' field of a feature) are a rich, useful class to work with. They come with an enormous set of built-in spatial functions, allowing you to perform analysis tasks like clipping and intersecting entirely in memory. These operations can be much faster than running the equivalent tool on a feature class, and if you're already iterating through rows with a cursor there's comparatively little overhead in performing geometry operations as you traverse.
 
-* In one workflow I had to erase a set of small polygons from a larger polygon, an operation we had to repeat hundreds of thousands of times a day. Using the erase tool on a feature class was prohibitively slow, so we decided to minimise the work it did by pre-checking geometry objects ourelves. This pre-check took our operation from an average of 25 seconds to 5.
+* In one workflow I had to erase a set of small polygons from a larger polygon, an operation repeated hundreds of thousands of times a day. Using the erase tool on a feature class was prohibitively slow, so to minimise that overhead we began pre-checking geometry objects rather than blindly passing them into the erase. This pre-check took our operation from an average of 25 seconds to 5.
 
 1. With search cursors access the large polygon and the set of smaller polygons that need to be erased from it.
 2. For each smaller polygon, check if it overlaps the large one by running 'smallerPolygonGeometry.distanceTo(largerPolygonGeometry)'. If this returns zero they touch or intersect - store a reference to that polygon.
